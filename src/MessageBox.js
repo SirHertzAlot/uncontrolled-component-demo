@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component, createRef } from "react";
 
 const sentenceCase = str => {
   if (str === null || str === "") return false;
@@ -15,18 +15,27 @@ class MessageBox extends Component {
     nature: "",
     query: ""
   };
-  submitForm = () => {};
+  nameRef = createRef();
+  natureRef = createRef();
+  queryRef = createRef();
+  submitForm = () => { 
+    this.setState({
+      name: sentenceCase(this.nameRef.current.value),
+      nature: this.natureRef.current.value,
+      query: this.queryRef.current.value
+    })
+  };
   render() {
     return (
       <div className="form-container">
         <div className="form-fields">
           <div className="field-holder">
             <span className="label">Name</span>
-            <isTSExpressionWithTypeArguments />
+            <input ref={this.nameRef} />
           </div>
           <div className="field-holder">
             <span className="label">Nature of Query</span>
-            <select>
+            <select ref={this.natureRef} >
               <option>Billing</option>
               <option>Sales</option>
               <option>Tech Support</option>
@@ -34,7 +43,7 @@ class MessageBox extends Component {
           </div>
           <div className="field-holder">
             <span className="label">Query</span>
-            <textarea />
+            <textarea ref={this.queryRef} />
           </div>
           <div className="field-holder">
             <button id="submit-btn" onClick={this.submitForm}>
